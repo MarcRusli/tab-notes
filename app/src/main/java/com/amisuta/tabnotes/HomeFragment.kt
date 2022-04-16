@@ -9,8 +9,7 @@ import android.view.ViewGroup
 class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
+
     }
 
     override fun onCreateView(
@@ -19,6 +18,31 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+        requireActivity().findViewById<View>(R.id.create_note_btn).setOnClickListener {
+            replaceFragment(EditNoteFragment.newInstance())
+        }
+    }
+
+    private fun replaceFragment(fragment: Fragment, ifTransition: Boolean = true) {
+        val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
+
+        if (ifTransition) {
+            fragmentTransaction.setCustomAnimations(
+                android.R.anim.slide_out_right,
+                android.R.anim.slide_in_left
+            )
+        }
+
+        fragmentTransaction
+            .replace(R.id.frame_layout, fragment)
+            .addToBackStack(fragment.javaClass.simpleName)
+            .commit()
     }
 
     companion object {
