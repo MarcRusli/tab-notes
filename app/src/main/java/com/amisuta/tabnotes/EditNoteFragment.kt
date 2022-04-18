@@ -5,7 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import com.amisuta.tabnotes.databinding.FragmentEditNoteBinding
+import com.amisuta.tabnotes.databinding.FragmentHomeBinding
 
 /**
  * A simple [Fragment] subclass.
@@ -20,18 +21,43 @@ class EditNoteFragment : Fragment() {
         }
     }
 
+    private var _binding: FragmentEditNoteBinding? = null
+
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_note, container, false)
+        _binding = FragmentEditNoteBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.icSave.setOnClickListener {
+            replaceFragment(HomeFragment.newInstance(), false)
+        }
+    }
 
+    private fun replaceFragment(fragment: Fragment, ifTransition: Boolean = true) {
+        val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
+
+        if (ifTransition) {
+            fragmentTransaction.setCustomAnimations(
+                android.R.anim.slide_out_right,
+                android.R.anim.slide_in_left
+            )
+        }
+
+        fragmentTransaction
+            .replace(R.id.frame_layout, fragment)
+            .addToBackStack(fragment.javaClass.simpleName)
+            .commit()
     }
 
     companion object {
