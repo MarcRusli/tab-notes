@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.amisuta.tabnotes.databinding.FragmentEditNoteBinding
-import com.amisuta.tabnotes.databinding.FragmentHomeBinding
 
 /**
  * A simple [Fragment] subclass.
@@ -42,6 +41,11 @@ class EditNoteFragment : Fragment() {
         binding.icSave.setOnClickListener {
             replaceFragment(HomeFragment.newInstance(), false)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun replaceFragment(fragment: Fragment, ifTransition: Boolean = true) {
