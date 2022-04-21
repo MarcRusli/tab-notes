@@ -5,14 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.amisuta.tabnotes.database.NotesDatabase
 import com.amisuta.tabnotes.databinding.FragmentEditNoteBinding
+import com.amisuta.tabnotes.entities.Notes
+import kotlinx.coroutines.launch
 
 /**
  * A simple [Fragment] subclass.
  * Use the [EditNoteFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class EditNoteFragment : Fragment() {
+class EditNoteFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +42,8 @@ class EditNoteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.icSave.setOnClickListener {
-            replaceFragment(HomeFragment.newInstance(), false)
+            saveNote()
+            parentFragmentManager.popBackStack()
         }
     }
 
@@ -48,20 +52,25 @@ class EditNoteFragment : Fragment() {
         _binding = null
     }
 
-    private fun replaceFragment(fragment: Fragment, ifTransition: Boolean = true) {
-        val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
-
-        if (ifTransition) {
-            fragmentTransaction.setCustomAnimations(
-                android.R.anim.slide_out_right,
-                android.R.anim.slide_in_left
-            )
+    private fun saveNote() {
+        // if all fields empty, do nothing
+        if (binding.etNoteBody.text.isNullOrEmpty()
+            && binding.etNoteTitle.text.isNullOrEmpty()) {
+            return
         }
 
-        fragmentTransaction
-            .replace(R.id.frame_layout, fragment)
-            .addToBackStack(fragment.javaClass.simpleName)
-            .commit()
+        // launching background thread for database access
+        launch {
+            val notes = Notes()
+            notes.title = binding.etNoteTitle.text.toString()
+            notes.body = binding.etNoteBody.text.toString()
+
+            context?.let {
+                NotesDatabase.getDatabase(it).noteDao().insertNotes(notes)
+                binding.etNoteTitle.setText("")
+                binding.etNoteBody.setText("")
+            }
+        }
     }
 
     companion object {

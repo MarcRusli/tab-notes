@@ -6,8 +6,10 @@
         <entry key="..\:/Users/Amisuta/AndroidStudioProjects/TabNotes/app/src/main/res/layout/activity_main.xml" value="0.5032437442075997" />
         <entry key="..\:/Users/Amisuta/AndroidStudioProjects/TabNotes/app/src/main/res/layout/fragment_edit_note.xml" value="0.18811881188118812" />
         <entry key="..\:/Users/Amisuta/AndroidStudioProjects/TabNotes/app/src/main/res/layout/fragment_home.xml" value="0.36685773840541946" />
+        <entry key="app/src/main/res/layout/fragment_base.xml" value="0.16621376811594202" />
         <entry key="app/src/main/res/layout/fragment_edit_note.xml" value="0.23324275362318841" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.23324275362318841" />
+        <entry key="app/src/main/res/layout/rv_item.xml" value="0.23324275362318841" />
       </map>
     </option>
   </component>

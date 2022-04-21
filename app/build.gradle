@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -56,10 +57,12 @@ dependencies {
 
     // scalable unit size
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
+    */
 
     // room database
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-runtime:2.4.2"
+    kapt "androidx.room:room-compiler:2.4.2"
+    implementation "androidx.room:room-ktx:2.4.2"
 
-     */
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
 }
