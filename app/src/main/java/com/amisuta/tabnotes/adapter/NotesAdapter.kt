@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amisuta.tabnotes.R
 import com.amisuta.tabnotes.entities.Notes
 
-class NotesAdapter(notesList: List<Notes>) : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
-    private var arrNotesList = notesList as ArrayList<Notes>
+class NotesAdapter : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
+    var arrNotesList = ArrayList<Notes>()
 
     class NotesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textViewTitle: TextView = view.findViewById(R.id.rv_item_title)
@@ -31,4 +31,21 @@ class NotesAdapter(notesList: List<Notes>) : RecyclerView.Adapter<NotesAdapter.N
         holder.textViewBody.text = arrNotesList[position].body
 
     }
+
+
+    fun getData(updatedList: List<Notes>) {
+      arrNotesList.clear()
+      arrNotesList.addAll(updatedList)
+      notifyDataSetChanged()
+    }
+    //bug: never saves 1st 2 notes created upon launching app,
+    //but saves every other note past that
+
+
+    /*
+    fun getData(notesList: List<Notes>) {
+        arrNotesList = notesList as ArrayList<Notes>
+    }
+     */
+
 }

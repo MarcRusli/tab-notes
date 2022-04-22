@@ -67,8 +67,6 @@ class EditNoteFragment : BaseFragment() {
 
             context?.let {
                 NotesDatabase.getDatabase(it).noteDao().insertNotes(notes)
-                binding.etNoteTitle.setText("")
-                binding.etNoteBody.setText("")
             }
         }
     }

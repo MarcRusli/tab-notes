@@ -5,17 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.amisuta.tabnotes.adapter.NotesAdapter
 import com.amisuta.tabnotes.database.NotesDatabase
 import com.amisuta.tabnotes.databinding.FragmentHomeBinding
+import com.amisuta.tabnotes.entities.Notes
 import kotlinx.coroutines.launch
 
 class HomeFragment : BaseFragment() {
+    private val notesAdapter: NotesAdapter = NotesAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     private var _binding: FragmentHomeBinding? = null
@@ -41,13 +43,14 @@ class HomeFragment : BaseFragment() {
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-
+        binding.recyclerView.adapter = notesAdapter
         launch {
             context?.let {
                 val notes = NotesDatabase.getDatabase(it).noteDao().getAllNotes()
-                binding.recyclerView.adapter = NotesAdapter(notes)
+                notesAdapter.getData(notes)
             }
         }
+
 
         binding.createNoteBtn.setOnClickListener {
             replaceFragment(EditNoteFragment.newInstance())

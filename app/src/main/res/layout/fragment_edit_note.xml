@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/body_hint"
         android:importantForAutofill="no"
-        android:inputType="text"
+        android:inputType="textMultiLine"
         app:layout_constraintTop_toBottomOf="@id/etNoteTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
