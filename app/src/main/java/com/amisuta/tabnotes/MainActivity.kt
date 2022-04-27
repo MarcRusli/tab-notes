@@ -2,12 +2,20 @@ package com.amisuta.tabnotes
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.amisuta.tabnotes.databinding.ActivityMainBinding
+import com.amisuta.tabnotes.viewmodel.NoteViewModel
+import com.amisuta.tabnotes.viewmodel.NoteViewModelFactory
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+    //val model: NoteViewModel by viewModels {
+    //    NoteViewModelFactory((application as NotesApplication).repository)
+    //}
 
+    private lateinit var binding: ActivityMainBinding
+    //val asdf = (application as NotesApplication).repository
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)

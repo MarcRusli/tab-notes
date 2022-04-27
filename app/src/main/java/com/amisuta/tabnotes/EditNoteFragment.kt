@@ -1,14 +1,19 @@
 package com.amisuta.tabnotes
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.amisuta.tabnotes.database.NotesDatabase
 import com.amisuta.tabnotes.databinding.FragmentEditNoteBinding
-import com.amisuta.tabnotes.entities.Notes
-import kotlinx.coroutines.launch
+import android.util.Log
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import com.amisuta.tabnotes.NotesApplication
+import com.amisuta.tabnotes.viewmodel.NoteViewModel
+import com.amisuta.tabnotes.viewmodel.NoteViewModelFactory
 
 /**
  * A simple [Fragment] subclass.
@@ -16,18 +21,28 @@ import kotlinx.coroutines.launch
  * create an instance of this fragment.
  */
 class EditNoteFragment : BaseFragment() {
+    //private lateinit var model: NoteViewModel
+
+    private val model: NoteViewModel by activityViewModels {
+        NoteViewModelFactory((activity?.application as NotesApplication).repository)
+    }
+
+    //private val model: NoteViewModel by activityViewModels()
+
+    private var _binding: FragmentEditNoteBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        //model = ViewModelProvider(requireActivity())[NoteViewModel::class.java]
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
+
+
     }
-
-    private var _binding: FragmentEditNoteBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,23 +67,26 @@ class EditNoteFragment : BaseFragment() {
         _binding = null
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        Log.d("Marc", "Destroyed fragment EditNote")
+    }
+
     private fun saveNote() {
         // if all fields empty, do nothing
         if (binding.etNoteBody.text.isNullOrEmpty()
-            && binding.etNoteTitle.text.isNullOrEmpty()) {
+            && binding.etNoteTitle.text.isNullOrEmpty()
+        ) {
             return
         }
+        Log.d("Marc", "Executing saveNote()")
+        val title = binding.etNoteTitle.text.toString()
+        val body = binding.etNoteBody.text.toString()
 
         // launching background thread for database access
-        launch {
-            val notes = Notes()
-            notes.title = binding.etNoteTitle.text.toString()
-            notes.body = binding.etNoteBody.text.toString()
+        model.insert(title, body)
 
-            context?.let {
-                NotesDatabase.getDatabase(it).noteDao().insertNotes(notes)
-            }
-        }
     }
 
     companion object {
@@ -80,6 +98,5 @@ class EditNoteFragment : BaseFragment() {
          */
         @JvmStatic
         fun newInstance() = EditNoteFragment()
-
     }
 }

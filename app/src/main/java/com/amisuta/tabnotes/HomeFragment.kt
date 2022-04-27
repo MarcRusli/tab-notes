@@ -1,31 +1,35 @@
 package com.amisuta.tabnotes
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.amisuta.tabnotes.adapter.NotesAdapter
-import com.amisuta.tabnotes.database.NotesDatabase
+import com.amisuta.tabnotes.adapter.NoteListAdapter
 import com.amisuta.tabnotes.databinding.FragmentHomeBinding
-import com.amisuta.tabnotes.entities.Notes
-import kotlinx.coroutines.launch
+import com.amisuta.tabnotes.viewmodel.NoteViewModel
+import com.amisuta.tabnotes.viewmodel.NoteViewModelFactory
 
 class HomeFragment : BaseFragment() {
-    private val notesAdapter: NotesAdapter = NotesAdapter()
+    private val model: NoteViewModel by activityViewModels {
+        NoteViewModelFactory((activity?.application as NotesApplication).repository)
+    }
+    private var adapter = NoteListAdapter()
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        model.allNotes.observe(this) { notes ->
+            // Update the cached copy of the notes in the adapter.
+            notes.let { adapter.getData(it) }
+            Log.d("Marc", "observed: $notes")
+        }
     }
-
-    private var _binding: FragmentHomeBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,14 +47,7 @@ class HomeFragment : BaseFragment() {
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        binding.recyclerView.adapter = notesAdapter
-        launch {
-            context?.let {
-                val notes = NotesDatabase.getDatabase(it).noteDao().getAllNotes()
-                notesAdapter.getData(notes)
-            }
-        }
-
+        binding.recyclerView.adapter = adapter
 
         binding.createNoteBtn.setOnClickListener {
             replaceFragment(EditNoteFragment.newInstance())

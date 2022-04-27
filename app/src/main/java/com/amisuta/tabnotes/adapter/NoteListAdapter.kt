@@ -1,15 +1,16 @@
 package com.amisuta.tabnotes.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.amisuta.tabnotes.R
-import com.amisuta.tabnotes.entities.Notes
+import com.amisuta.tabnotes.entities.Note
 
-class NotesAdapter : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
-    var arrNotesList = ArrayList<Notes>()
+class NoteListAdapter : RecyclerView.Adapter<NoteListAdapter.NotesViewHolder>() {
+    private var arrNotesList = ArrayList<Note>()
 
     class NotesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textViewTitle: TextView = view.findViewById(R.id.rv_item_title)
@@ -33,19 +34,10 @@ class NotesAdapter : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
     }
 
 
-    fun getData(updatedList: List<Notes>) {
-      arrNotesList.clear()
-      arrNotesList.addAll(updatedList)
-      notifyDataSetChanged()
+    fun getData(updatedList: List<Note>) {
+        Log.d("Marc", "Executing getData()")
+        arrNotesList.clear()
+        arrNotesList.addAll(updatedList)
+        //notifyDataSetChanged()
     }
-    //bug: never saves 1st 2 notes created upon launching app,
-    //but saves every other note past that
-
-
-    /*
-    fun getData(notesList: List<Notes>) {
-        arrNotesList = notesList as ArrayList<Notes>
-    }
-     */
-
 }
