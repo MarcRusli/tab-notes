@@ -17,6 +17,7 @@ class HomeFragment : BaseFragment() {
     private val model: NoteViewModel by activityViewModels {
         NoteViewModelFactory((activity?.application as NotesApplication).repository)
     }
+
     private var adapter = NoteListAdapter()
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -26,7 +27,7 @@ class HomeFragment : BaseFragment() {
 
         model.allNotes.observe(this) { notes ->
             // Update the cached copy of the notes in the adapter.
-            notes.let { adapter.getData(it) }
+            notes.let { adapter.submitList(it) }
             Log.d("Marc", "observed: $notes")
         }
     }
@@ -48,6 +49,7 @@ class HomeFragment : BaseFragment() {
         binding.recyclerView.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.recyclerView.adapter = adapter
+
 
         binding.createNoteBtn.setOnClickListener {
             replaceFragment(EditNoteFragment.newInstance())
