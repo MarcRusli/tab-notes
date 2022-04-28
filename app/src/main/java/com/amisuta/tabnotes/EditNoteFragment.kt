@@ -21,28 +21,12 @@ import com.amisuta.tabnotes.viewmodel.NoteViewModelFactory
  * create an instance of this fragment.
  */
 class EditNoteFragment : BaseFragment() {
-    //private lateinit var model: NoteViewModel
-
     private val model: NoteViewModel by activityViewModels {
         NoteViewModelFactory((activity?.application as NotesApplication).repository)
     }
 
-    //private val model: NoteViewModel by activityViewModels()
-
     private var _binding: FragmentEditNoteBinding? = null
     private val binding get() = _binding!!
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        //model = ViewModelProvider(requireActivity())[NoteViewModel::class.java]
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

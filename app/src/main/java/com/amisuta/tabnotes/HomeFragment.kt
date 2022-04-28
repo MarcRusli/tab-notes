@@ -1,5 +1,6 @@
 package com.amisuta.tabnotes
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -22,14 +23,21 @@ class HomeFragment : BaseFragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.d("Marc", "homefragment attached")
 
         model.allNotes.observe(this) { notes ->
             // Update the cached copy of the notes in the adapter.
             notes.let { adapter.submitList(it) }
             Log.d("Marc", "observed: $notes")
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d("Marc", "homefragment created")
+
     }
 
     override fun onCreateView(

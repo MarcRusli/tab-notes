@@ -11,7 +11,6 @@ class NoteRepository(private val noteDao: NoteDao) {
 
     @WorkerThread
     suspend fun insert(note: Note) {
-        Log.d("Marc", "insert (repository)")
         noteDao.insert(note)
     }
 
