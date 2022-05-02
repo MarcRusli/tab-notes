@@ -1,17 +1,11 @@
 package com.amisuta.tabnotes
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.amisuta.tabnotes.databinding.FragmentEditNoteBinding
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import com.amisuta.tabnotes.NotesApplication
 import com.amisuta.tabnotes.viewmodel.NoteViewModel
 import com.amisuta.tabnotes.viewmodel.NoteViewModelFactory
 
@@ -24,9 +18,16 @@ class EditNoteFragment : BaseFragment() {
     private val model: NoteViewModel by activityViewModels {
         NoteViewModelFactory((activity?.application as NotesApplication).repository)
     }
-
     private var _binding: FragmentEditNoteBinding? = null
     private val binding get() = _binding!!
+
+    //val asdf = requireArguments().getin
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        //noteId = requireArguments().getInt("noteId",-1)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +45,7 @@ class EditNoteFragment : BaseFragment() {
             saveNote()
             parentFragmentManager.popBackStack()
         }
+
     }
 
     override fun onDestroyView() {
@@ -81,6 +83,10 @@ class EditNoteFragment : BaseFragment() {
          * @return A new instance of fragment EditNoteFragment.
          */
         @JvmStatic
-        fun newInstance() = EditNoteFragment()
+        fun newInstance() = EditNoteFragment().apply {
+            arguments = Bundle().apply {
+
+            }
+        }
     }
 }

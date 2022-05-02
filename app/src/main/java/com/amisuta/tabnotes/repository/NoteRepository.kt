@@ -14,6 +14,11 @@ class NoteRepository(private val noteDao: NoteDao) {
         noteDao.insert(note)
     }
 
+    @WorkerThread
+    suspend fun fetch(id: Int) {
+        noteDao.fetch(id)
+    }
+
     suspend fun delete(note: Note) {
         noteDao.delete(note)
     }

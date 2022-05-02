@@ -18,4 +18,7 @@ interface NoteDao {
 
     @Query("DELETE FROM note_table")
     suspend fun deleteAll()
+
+    @Query("SELECT * FROM note_table WHERE id = :id")
+    suspend fun fetch(id: Int): Note
 }

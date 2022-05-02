@@ -23,6 +23,24 @@ class HomeFragment : BaseFragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    /*
+    private val onClicked = object :NoteListAdapter.OnItemClickListener{
+        override fun onClicked(notesId: Int) {
+
+
+            var fragment :Fragment
+            var bundle = Bundle()
+            bundle.putInt("noteId",notesId)
+            fragment = EditNoteFragment.newInstance()
+            fragment.arguments = bundle
+
+            replaceFragment(fragment,false)
+        }
+
+    }
+     */
+
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         Log.d("Marc", "homefragment attached")
@@ -57,7 +75,7 @@ class HomeFragment : BaseFragment() {
         binding.recyclerView.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.recyclerView.adapter = adapter
-
+        //adapter.setOnClickListener(onClicked)
 
         binding.createNoteBtn.setOnClickListener {
             replaceFragment(EditNoteFragment.newInstance())
@@ -90,7 +108,6 @@ class HomeFragment : BaseFragment() {
         fun newInstance() =
             HomeFragment().apply {
                 arguments = Bundle().apply {
-
                 }
             }
     }
