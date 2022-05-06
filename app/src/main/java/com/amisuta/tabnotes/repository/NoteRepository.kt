@@ -1,6 +1,5 @@
 package com.amisuta.tabnotes.repository
 
-import android.util.Log
 import androidx.annotation.WorkerThread
 import com.amisuta.tabnotes.dao.NoteDao
 import com.amisuta.tabnotes.entities.Note
@@ -15,11 +14,14 @@ class NoteRepository(private val noteDao: NoteDao) {
     }
 
     @WorkerThread
-    suspend fun fetch(id: Int) {
-        noteDao.fetch(id)
+    suspend fun fetch(id: Int): Note = noteDao.fetch(id)
+
+    @WorkerThread
+    suspend fun update(note: Note) {
+        noteDao.update(note)
     }
 
-    suspend fun delete(note: Note) {
-        noteDao.delete(note)
+    suspend fun delete(id: Int) {
+        noteDao.delete(id)
     }
 }

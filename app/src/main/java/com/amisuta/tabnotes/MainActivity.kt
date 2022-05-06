@@ -10,12 +10,9 @@ import com.amisuta.tabnotes.viewmodel.NoteViewModel
 import com.amisuta.tabnotes.viewmodel.NoteViewModelFactory
 
 class MainActivity : AppCompatActivity() {
-    //val model: NoteViewModel by viewModels {
-    //    NoteViewModelFactory((application as NotesApplication).repository)
-    //}
 
     private lateinit var binding: ActivityMainBinding
-    //val asdf = (application as NotesApplication).repository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)

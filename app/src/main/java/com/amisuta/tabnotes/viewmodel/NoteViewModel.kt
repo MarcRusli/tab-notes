@@ -1,31 +1,37 @@
 package com.amisuta.tabnotes.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import com.amisuta.tabnotes.entities.Note
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
 import com.amisuta.tabnotes.repository.NoteRepository
 
 class NoteViewModel(private val repository: NoteRepository) : ViewModel() {
 
     val allNotes: LiveData<List<Note>> = repository.allNotes.asLiveData()
+    var fetchedNote: LiveData<Note> = MutableLiveData()
 
     fun insert(title: String, body: String) = viewModelScope.launch {
         val note = Note()
         note.title = title
         note.body = body
-        try {
-            repository.insert(note)
-            Log.d("Marc", "it worked!")
-        } catch(e: Exception) {
-            Log.d("Marc", "ExceptionStuff: " + e)
-        }
+        repository.insert(note)
     }
 
+    fun fetch(id: Int) = viewModelScope.launch {
+        (fetchedNote as? MutableLiveData)?.value = repository.fetch(id)
+    }
+
+    fun update(title: String, body: String) = viewModelScope.launch {
+        val note: Note = fetchedNote.value!!
+        note.title = title
+        note.body = body
+        repository.update(note)
+    }
+
+    fun delete(id: Int) = viewModelScope.launch {
+        repository.delete(id)
+    }
 }
 
 class NoteViewModelFactory(private val repository: NoteRepository) : ViewModelProvider.Factory {

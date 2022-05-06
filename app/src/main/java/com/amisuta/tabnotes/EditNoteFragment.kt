@@ -8,6 +8,7 @@ import android.view.*
 import androidx.fragment.app.activityViewModels
 import com.amisuta.tabnotes.viewmodel.NoteViewModel
 import com.amisuta.tabnotes.viewmodel.NoteViewModelFactory
+import kotlinx.coroutines.launch
 
 /**
  * A simple [Fragment] subclass.
@@ -21,12 +22,12 @@ class EditNoteFragment : BaseFragment() {
     private var _binding: FragmentEditNoteBinding? = null
     private val binding get() = _binding!!
 
-    //val asdf = requireArguments().getin
+    private var noteId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //noteId = requireArguments().getInt("noteId",-1)
+        noteId = requireArguments().getInt("noteId", -1)
     }
 
     override fun onCreateView(
@@ -41,8 +42,26 @@ class EditNoteFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (noteId != -1) {
+
+            Log.d("Marc", "pre-fetch")
+            model.fetch(noteId)
+            model.fetchedNote.observe(viewLifecycleOwner) { note ->
+                Log.d("Marc", "change observed!")
+                binding.etNoteTitle.setText(note.title)
+                binding.etNoteBody.setText(note.body)
+            }
+            Log.d("Marc", "post-fetch")
+
+        }
+
+
         binding.icSave.setOnClickListener {
-            saveNote()
+            if (noteId != -1) {
+                updateNote()
+            } else {
+                saveNote()
+            }
             parentFragmentManager.popBackStack()
         }
 
@@ -73,6 +92,19 @@ class EditNoteFragment : BaseFragment() {
         // launching background thread for database access
         model.insert(title, body)
 
+    }
+
+    private fun updateNote() {
+        Log.d("Marc", "updating note")
+        if (binding.etNoteBody.text.isNullOrEmpty()
+            && binding.etNoteTitle.text.isNullOrEmpty()
+        ) {
+            model.delete(noteId)
+        } else {
+            val title = binding.etNoteTitle.text.toString()
+            val body = binding.etNoteBody.text.toString()
+            model.update(title, body)
+        }
     }
 
     companion object {
