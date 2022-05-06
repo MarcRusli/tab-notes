@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
  * Use the [EditNoteFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class EditNoteFragment : BaseFragment() {
+class EditNoteFragment : Fragment() {
     private val model: NoteViewModel by activityViewModels {
         NoteViewModelFactory((activity?.application as NotesApplication).repository)
     }

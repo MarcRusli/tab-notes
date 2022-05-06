@@ -14,7 +14,7 @@ import com.amisuta.tabnotes.databinding.FragmentHomeBinding
 import com.amisuta.tabnotes.viewmodel.NoteViewModel
 import com.amisuta.tabnotes.viewmodel.NoteViewModelFactory
 
-class HomeFragment : BaseFragment() {
+class HomeFragment : Fragment() {
     private val model: NoteViewModel by activityViewModels {
         NoteViewModelFactory((activity?.application as NotesApplication).repository)
     }
