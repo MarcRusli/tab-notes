@@ -1,6 +1,5 @@
 package com.amisuta.tabnotes.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import com.amisuta.tabnotes.entities.Note

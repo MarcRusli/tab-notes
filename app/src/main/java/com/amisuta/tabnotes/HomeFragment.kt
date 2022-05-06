@@ -33,9 +33,7 @@ class HomeFragment : BaseFragment() {
 
             replaceFragment(fragment, false)
         }
-
     }
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

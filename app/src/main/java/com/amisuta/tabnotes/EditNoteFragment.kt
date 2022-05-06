@@ -21,12 +21,10 @@ class EditNoteFragment : BaseFragment() {
     }
     private var _binding: FragmentEditNoteBinding? = null
     private val binding get() = _binding!!
-
     private var noteId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         noteId = requireArguments().getInt("noteId", -1)
     }
 
@@ -55,7 +53,6 @@ class EditNoteFragment : BaseFragment() {
 
         }
 
-
         binding.icSave.setOnClickListener {
             if (noteId != -1) {
                 updateNote()
@@ -64,7 +61,6 @@ class EditNoteFragment : BaseFragment() {
             }
             parentFragmentManager.popBackStack()
         }
-
     }
 
     override fun onDestroyView() {
@@ -74,7 +70,6 @@ class EditNoteFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-
         Log.d("Marc", "Destroyed fragment EditNote")
     }
 
@@ -89,7 +84,6 @@ class EditNoteFragment : BaseFragment() {
         val title = binding.etNoteTitle.text.toString()
         val body = binding.etNoteBody.text.toString()
 
-        // launching background thread for database access
         model.insert(title, body)
 
     }
@@ -117,7 +111,6 @@ class EditNoteFragment : BaseFragment() {
         @JvmStatic
         fun newInstance() = EditNoteFragment().apply {
             arguments = Bundle().apply {
-
             }
         }
     }
